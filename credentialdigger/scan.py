@@ -34,7 +34,7 @@ import logging
 import os
 import sys
 
-from credentialdigger import PgClient
+from credentialdigger import PgClient, SqliteClient
 
 logger = logging.getLogger(__name__)
 
@@ -125,11 +125,22 @@ def scan(*pip_args):
     """
     args = parser.parse_args(pip_args)
 
-    c = PgClient(dbname=os.getenv('POSTGRES_DB'),
-                 dbuser=os.getenv('POSTGRES_USER'),
-                 dbpassword=os.getenv('POSTGRES_PASSWORD'),
-                 dbhost=os.getenv('DBHOST'),
-                 dbport=int(os.getenv('DBPORT')))
+    if os.getenv('USE_PG'):
+        logger.info('Use Postgres Client')
+        c = PgClient(dbname=os.getenv('POSTGRES_DB'),
+                     dbuser=os.getenv('POSTGRES_USER'),
+                     dbpassword=os.getenv('POSTGRES_PASSWORD'),
+                     dbhost=os.getenv('DBHOST'),
+                     dbport=int(os.getenv('DBPORT')))
+    else:
+        if (os.getenv('SQLITE_DB')):
+            logger.info('Use Sqlite Client')
+            c = SqliteClient(path=os.getenv('SQLITE_DB'))
+        else:
+            logger.critical(
+                'You did not provide the "SQLITE_DB" environment '
+                'variable.\n   $ export SQLITE_DB=path_to_database.db')
+            sys.exit(0)
 
     discoveries = c.scan(
         repo_url=args.repo_url,
