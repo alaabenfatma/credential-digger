@@ -3,16 +3,14 @@ import logging
 if __name__ == "__main__":
     import plac
     import sys
-    from credentialdigger import download, scan
+    from credentialdigger import add_rules, download, scan
 
-    commands = {'download': download, 'scan': scan}
+    commands = {'download': download, 'scan': scan, 'add_rules': add_rules}
     available_comamnds = f'{", ".join(commands)}'
     if len(sys.argv) == 1:
-        logging.error(
-            f'You did not call any command.\n\
-            Available commands: {available_comamnds}'
-        )
-        exit()
+        logging.error(f'You did not call any command.\n\
+            Available commands: {available_comamnds}')
+        sys.exit(-1)
     command = sys.argv.pop(1)
     sys.argv[0] = f'credentialdigger {command}'
     if command in commands:
@@ -20,3 +18,4 @@ if __name__ == "__main__":
     else:
         logging.error(f'Unknown command: {command}\n'
                       f'Available commands: {available_comamnds}')
+                      
