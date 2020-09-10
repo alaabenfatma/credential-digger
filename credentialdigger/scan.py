@@ -140,7 +140,7 @@ def scan(*pip_args):
             logger.critical(
                 'You did not provide the "SQLITE_DB" environment variable\n'
                 '   $ export SQLITE_DB=path_to_database.db')
-            sys.exit(0)
+            sys.exit(-1)
 
     discoveries = c.scan(
         repo_url=args.repo_url,
