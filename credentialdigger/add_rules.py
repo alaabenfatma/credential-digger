@@ -1,3 +1,15 @@
+"""
+The 'add_rules' modules add scanning rules from a file to the database.
+This module supports both Sqlite & Postegres databases.
+NOTE: Please make sure that the environment variables are exported.
+
+This command takes one argument:
+  path_to_rules     <Required> The path of the file that contains the rules.
+
+Usage:
+python -m credentialdigger add_rules /path/rules.yml
+
+"""
 import argparse
 import logging
 import os
@@ -32,9 +44,15 @@ def add_rules(*pip_args):
     *pip_args
         Keyword arguments for pip.
 
-    Returns
-    -------
-        to be continued...
+    Raises
+    ------
+        FileNotFoundError
+            If the file does not exist
+        ParserError
+            If the file is malformed
+        KeyError
+            If one of the required attributes in the file (i.e., rules, regex,
+            and category) is missing
     """
 
     args = parser.parse_args(pip_args)
