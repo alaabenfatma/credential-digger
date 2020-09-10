@@ -138,8 +138,8 @@ def scan(*pip_args):
             c = SqliteClient(path=os.getenv('SQLITE_DB'))
         else:
             logger.critical(
-                'You did not provide the "SQLITE_DB" environment '
-                'variable.\n   $ export SQLITE_DB=path_to_database.db')
+                'You did not provide the "SQLITE_DB" environment variable\n'
+                '   $ export SQLITE_DB=path_to_database.db')
             sys.exit(0)
 
     discoveries = c.scan(
