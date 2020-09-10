@@ -75,3 +75,7 @@ def add_rules(*pip_args):
             sys.exit(-1)
 
     c.add_rules_from_file(args.path_to_rules)
+
+    # This message will not be logged if the above operation fails, 
+    # hence raising an exception.
+    logger.info('The rules have been added successfully.')
